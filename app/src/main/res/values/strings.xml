@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ComposeBottomNavGraphs</string>
+    <string name="screen_title_home">Home</string>
+    <string name="screen_title_settings">Settings</string>
+</resources>
