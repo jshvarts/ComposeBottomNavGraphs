@@ -19,7 +19,7 @@ fun NavGraphBuilder.settingsNavGraph(
             SettingsScreen(navController)
         }
         composable(Screen.About.route) {
-            AboutScreen()
+            AboutScreen(navController)
         }
     }
 }
