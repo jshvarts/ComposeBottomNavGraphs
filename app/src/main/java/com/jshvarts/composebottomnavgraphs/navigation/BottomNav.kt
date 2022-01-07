@@ -13,23 +13,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.jshvarts.composebottomnavgraphs.R
-import com.jshvarts.composebottomnavgraphs.screens.Screen
 
 sealed class BottomNavItem(
     val route: String,
     @StringRes val titleResId: Int,
     val icon: ImageVector
 ) {
-    object HomeNavItem : BottomNavItem(
-        route = Screen.Home.route,
+    object Home : BottomNavItem(
+        route = HOME_GRAPH_ROUTE,
         titleResId = R.string.screen_title_home,
         icon = Icons.Default.Home
     )
 
-    object SettingsNavItem : BottomNavItem(
-        route = Screen.Settings.route,
+    object Settings : BottomNavItem(
+        route = SETTINGS_GRAPH_ROUTE,
         titleResId = R.string.screen_title_settings,
         icon = Icons.Default.Settings
     )
@@ -40,8 +40,8 @@ fun BottomNavigationBar(
     navController: NavController
 ) {
     val items = listOf(
-        BottomNavItem.HomeNavItem,
-        BottomNavItem.SettingsNavItem
+        BottomNavItem.Home,
+        BottomNavItem.Settings
     )
 
     BottomNavigation {
@@ -62,10 +62,8 @@ fun BottomNavigationBar(
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
                         // Avoid multiple copies of the same destination when re-selecting the same item
                         launchSingleTop = true
